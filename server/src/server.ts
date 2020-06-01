@@ -6,7 +6,7 @@ app.get('/users', (request, response) => {
     console.log('Listagem de usuários');
 
     response.json([
-        'Emerson',
+        'Émerson',
         'Evelyn',
         'Pedro'
     ]);
