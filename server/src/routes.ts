@@ -1,11 +1,11 @@
 import express, { request, response } from 'express';
-import PointesController from '../src/controllers/pointsController';  //importando a classe PointesController.
+import PointsController from '../src/controllers/pointsController';  //importando a classe PointesController.
 import ItemsController from '../src/controllers/itemsController';  //importando a classe ItemsController.
 
 
 const routes = express.Router(); //serve para desacoplar as rotas do arquivo principal para outro arquivo. agr o routes funciona da mesma forma que o app funcionava.
 
-const pointsController = new PointesController(); // estância a classe.
+const pointsController = new PointsController(); // estância a classe.
 const itemsController = new ItemsController(); // estância a classe.
 
 
@@ -23,4 +23,4 @@ routes.get('/points', pointsController.index ); //index nome do método da class
 routes.get('/points/:id', pointsController.show ); //show nome do método da classe utilizado para listar um único ponto.
 
 
-export default routes; //exporta para ter acesso no server
+export default routes; //exporta para ter acesso no server.ts
