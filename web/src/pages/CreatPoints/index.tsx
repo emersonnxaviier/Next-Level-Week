@@ -245,7 +245,7 @@ const CreatPoint = ()=> {
                             <div className="field">
                                     <label htmlFor="city"> Cidade </label>
                                     
-                                    <select name="city"  id="city"  value={selectedCity}    onChange={handleSelectCity}>>
+                                    <select name="city"  id="city"  value={selectedCity}    onChange={handleSelectCity}>
                                             <option value="0"> Selecione uma Cidade </option>
 
                                             { cities.map(city => (

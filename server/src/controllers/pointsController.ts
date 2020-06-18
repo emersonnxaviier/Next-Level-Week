@@ -1,7 +1,9 @@
 import {Request, Response} from 'express';
 import knex from '../database/connection'; //importa a conexão com o banco.
 
+
 class PointsController{
+    
 
     //LISTAR TODOS OS PONTOS DE COLETA  FILTRADO POR CITY/UF/ITEMS
     async index(request: Request, response: Response) { //informa manualmente os formatos request e response.
@@ -14,7 +16,7 @@ class PointsController{
             .map(item => Number(item.trim())); // transforma items em string e separa cada uma por vírgula eliminando os espaçõs.
     
 
-        const pointss = await knex('points') //se no filtro receber por exeplo 1 e 2 vai procurar todos os pontos que tem pelo meno 1 item_id dos que está recebendo no filtro.
+        const points = await knex('points') //se no filtro receber por exeplo 1 e 2 vai procurar todos os pontos que tem pelo meno 1 item_id dos que está recebendo no filtro.
             .join('point_items', 'points.id', '=', 'point_items.point_id' )
             .whereIn('point_items.item_id', parsedItems)
             .where('city', String(city))
@@ -22,39 +24,38 @@ class PointsController{
             .distinct()    //para retornar somente pontos de coletas distintos e não o mesmo mais de uma vez.
             .select('points.*');
 
-        return response.json(pointss);
+        return response.json(points);
     }
 
-
+        
 
 
 
     //LISTAR PONTO ESPECÍFICO
     async show(request: Request, response: Response) { //informa manualmente os formatos request e response.
 
-        //desestruturação pois o nome do objeto é o mesmo da variável.
-        const { id } = request.params;
+                //desestruturação pois o nome do objeto é o mesmo da variável.
+                const { id } = request.params;
 
-        //faz uma busca no banco de dados.
-        const point = knex('points').where('id', id).first();
+                //faz uma busca no banco de dados.
+                 const point = knex('points').where('id', id).first();
 
-            //se não encontar.
-            if(!point){
-                return response.status(400).json({ message: 'Ponto de coleta não encontrado.'});
-            
-            }
+                // se não encontrar.
+                 if(!point){
+                    return response.status(400).json({ message: 'Ponto de coleta não encontrado.'});
+                 }
+                
 
-            //itens que determinado ponto coleta
-            const items = await knex('items')
+                //itens que determina o ponto coleta
+                const items = await knex('items')
                 .join('point_items', 'items.id', '=', 'point_items.item_id')
                 .where('point_items.point_id', id)
                 .select('items.title');
 
-
-            //se encontrar retorne o ponto.
-            return response.json({ point, items});
-        
-    }
+                //se encontrar retorne o ponto.
+                return response.json({ point, items});
+                
+            }
 
 
 
