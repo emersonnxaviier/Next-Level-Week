@@ -57,12 +57,12 @@ function handleNavigateBack(){
     navigation.goBack(); 
 }
 
-// vai para a tela de detalhes.
+// vai para a tela de detalhes do ponto clicado.
 function handleNavigateToDetail( id: number){
   navigation.navigate('Detail', { point_id: id }); 
 }
 
-// pegar a localização atual do usuário.
+// acessar a localização atual do usuário.
 useEffect( () => {
     async function loadPosition(){
       const { status } = await Location.requestPermissionsAsync(); // retorna se o usuário deu permissão ou não.
@@ -158,8 +158,7 @@ function handleSelectItem(id: number){
                     style={styles.mapMarker}
                     coordinate ={ 
                     { latitude: point.latitude,
-                      longitude: point.longitude, }} 
-                >
+                      longitude: point.longitude, }} >
 
                   <View style={styles.mapMarkerContainer}>
                         <Image style={ styles.mapMarkerImage} source={ { uri: point.image } }/>

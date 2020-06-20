@@ -59,7 +59,7 @@ function handleNavigateBack(){
 }
 
 
-if(! data.point){
+if( !data.point){
   return null;
 }
 
