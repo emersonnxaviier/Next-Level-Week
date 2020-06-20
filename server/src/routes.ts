@@ -10,17 +10,17 @@ const itemsController = new ItemsController(); // estância a classe.
 
 
 // LISTAR TODOS OS ITENS
-routes.get('/items', itemsController.index); //index nome do método da classe.
+routes.get('/items', itemsController.index); //index é nome do método da classe.
 
 
 // CADASTRAR PONTOS DE COLETA
-routes.post('/points', pointsController.create ); //create nome do método da classe.
+routes.post('/points', pointsController.create ); //create é  nome do método da classe.
 
 // LISTAR TODOS OS PONTOS DE COLETA
-routes.get('/points', pointsController.index ); //index nome do método da classe.
+routes.get('/points', pointsController.index ); //index é nome do método da classe.
 
 //LISTAR PONTO DE COLETA ESPECÍFICO
-routes.get('/points/:id', pointsController.show ); //show nome do método da classe utilizado para listar um único ponto.
+routes.get('/points/:id', pointsController.show ); //show é nome do método da classe utilizado para listar um único ponto.
 
 
 export default routes; //exporta para ter acesso no server.ts

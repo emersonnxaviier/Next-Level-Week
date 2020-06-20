@@ -12,7 +12,7 @@ class ItemsController{
             return{
                 id: item.id,
                 title: item.title,
-                image_url: `http://10.0.1.8:3333/uploads/${item.image}`,  //localhost foi alterado pelo ip da maquina, para rodar no mobile.
+                image_url: `http://10.0.1.8:3333/uploads/${item.image}`,  //localhost foi alterado pelo ip da maquina, para testar no mobile.
             }
         });
         return response.json(serializedItems);
