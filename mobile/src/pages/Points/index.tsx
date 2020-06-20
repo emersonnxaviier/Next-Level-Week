@@ -154,7 +154,7 @@ function handleSelectItem(id: number){
 
                 <Marker 
                     key ={String(point.id)}
-                    onPress={ () => handleNavigateToDetail(point.id)}
+                    onPress={ () => handleNavigateToDetail(point.id) }
                     style={styles.mapMarker}
                     coordinate ={ 
                     { latitude: point.latitude,

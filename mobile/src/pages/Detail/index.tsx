@@ -9,6 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import {View, StyleSheet, Text, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler'; //importar o botão retangular.
 import api from '../../services/api';
+import * as MailComposer from 'expo-mail-composer'; //para o botão de email.
 
 
 interface Params{
@@ -58,9 +59,18 @@ function handleNavigateBack(){
     navigation.goBack(); 
 }
 
+// para o botão de email.
+function handleComposeMail(){
+  MailComposer.composeAsync({
 
-if( !data.point){
-  return null;
+    subject: 'sjs ',  // assundo do email.
+     //para quem o email sera enviado.
+  })
+}
+
+
+if(!data.point){
+  return('nao encontrado');
 }
 
     return (
@@ -76,7 +86,7 @@ if( !data.point){
                     <Text style={styles.pointName}> { data.point.name } </Text>
 
                     <Text style={styles.pointItems}> 
-                          {data.items.map(item => item.title).join()}
+                          {data.items.map(item => item.title).join(', ')}
                     </Text>
 
                     <View style={styles.address}> 
