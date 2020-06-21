@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Image, StyleSheet, Text, ImageBackground } from 'react-native';
+import React, {useState} from 'react';
+import { View, Image, StyleSheet, Text, ImageBackground, TextInput } from 'react-native';
 import { RectButton} from 'react-native-gesture-handler'; //importa um botão retangular com cor de fundo.
 import { Feather as Icon } from '@expo/vector-icons';
 
@@ -8,11 +8,18 @@ import { useNavigation} from '@react-navigation/native';
 const Home = () =>{ 
 
 
+  //armazena a Uf.
+  const [ uf, setUf] = useState('');
+  
+  //armazena a cidade.
+  const [ city, setCity] = useState('');
 
+
+  //utilizada para fazer a navegação das páginas.
   const navigation = useNavigation();
   
   function handleNavigateToPoints(){
-      navigation.navigate('Points'); // navega para a tela definida em routes.tsx
+      navigation.navigate('Points', { uf, city }); // navega para a tela Points definida em routes.tsx, passando o estado e cidade.
   }
 
     return(
@@ -32,6 +39,26 @@ const Home = () =>{
                 </View>
 
                 <View style={styles.footer}>
+
+                    <TextInput 
+                      style={styles.input}
+                      placeholder='Digite a UF'
+                      value={uf}
+                      maxLength={2}
+                      autoCapitalize="characters"
+                      autoCorrect={false}
+                      onChangeText={setUf}
+                    />
+
+                    <TextInput 
+                      style={styles.input}
+                      placeholder='Digite a Cidade'
+                      value={city}
+                      autoCorrect={false}
+                      onChangeText={setCity}
+                    />
+
+
                     <RectButton style={styles.button} onPress= {handleNavigateToPoints}>
                         <View style={styles.buttonIcon}>
                            <Icon name="arrow-right" color="#FFF" size={24}/>
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
       height: 60,
       backgroundColor: '#FFF',
       borderRadius: 10,
-      marginBottom: 8,
+      marginBottom: 27,
       paddingHorizontal: 24,
       fontSize: 16,
     },

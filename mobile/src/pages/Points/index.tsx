@@ -5,11 +5,13 @@
 
   Sempre que armazena um vetor no estato(useStates), é preciso informar qual que é o formato desse vetor.
 
+  O useRoute serve para pegar os parâmetros da rota.
+
 */
 
 import React, {useState, useEffect }  from 'react';
 import {Feather as Icon } from '@expo/vector-icons'; // está renomeando Feather para Icon.
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MapView, {Marker} from 'react-native-maps';   // para usar o mapa.
 import { SvgUri} from 'react-native-svg'; //permite carregar um svg externo.
 import { View, StyleSheet, Text, Image, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
@@ -33,6 +35,12 @@ interface Point{
   longitude: number;
 }
 
+// formato dos parâmetros passados na página Home.
+interface Params{
+  uf: string;
+  city: string;
+}
+
 
 const Points = () =>{
 
@@ -49,7 +57,13 @@ const [selectItems, setSelectItems] = useState <number[]> ([]); //array numerico
 const [initialPosition, setInitialPosition] = useState <[number, number]> ([0, 0]);
 
 
+// utilizado para fazer a navegação das páginas.
 const navigation = useNavigation();
+
+// pega os parâmetros da rota.
+const route = useRoute();
+
+const routeParams = route.params as Params;
 
 
 // volta a tela anterior.
@@ -100,14 +114,14 @@ useEffect( () =>{
 
     api.get('points', {
       params:{
-        city: 'Macururé',
-        uf: 'BA',
-        items:[4, 5]
+        city: routeParams.city,
+        uf: routeParams.uf,
+        items:selectItems
       }
 
     }).then(response => { setPoints(response.data); })
 
-},[]);
+},[selectItems]); // toda vez que selecionar ou desselecionar um item executa novamente a chamada para carregar novos pontos.
 
 
 // seleciona e desseleciona os itens
