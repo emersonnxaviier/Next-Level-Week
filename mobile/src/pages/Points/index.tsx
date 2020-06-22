@@ -31,6 +31,7 @@ interface Point{
   id: number;
   name: string;
   image: string,
+  image_url: string; //para a imagem em si.
   latitude: number;
   longitude: number;
 }
@@ -175,7 +176,7 @@ function handleSelectItem(id: number){
                       longitude: point.longitude, }} >
 
                   <View style={styles.mapMarkerContainer}>
-                        <Image style={ styles.mapMarkerImage} source={ { uri: point.image } }/>
+                        <Image style={ styles.mapMarkerImage} source={ { uri: point.image_url } }/>
                         <Text style={styles.mapMarkerTitle}> {point.name} </Text>
                   </View>
 
