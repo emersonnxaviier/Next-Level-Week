@@ -8,7 +8,7 @@ import api from '../../services/api';
 import axios from 'axios';
 import { LeafletMouseEvent } from 'leaflet'; //para selecionar a localidade no mapa.
 
-
+import Dropzone from '../../components/Dropzone';
 
 
  // informa o tipo da variável que vai ser armazenada os Items.
@@ -28,23 +28,41 @@ interface IBGECityResponse{
     nome: string;
 }
 
+
 const CreatPoint = ()=> {
 
 
     const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]); //usado para a posição atual do usuário.
 
-    const [items, setItems] = useState<Item[]>([]);
-    const [ufs, setUfs] = useState<string[]>([]);
-    const [selectedUf, setSelectedUf] = useState('0'); // 0 pois é o mesmo valor do option que não tem nada / e é responsável por saber qual UF o usuário selecionou.
-    const [cities, setCities] = useState<string[]>([]);
-    const [selectedCity, setSelectedCity] = useState('0');
-    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]); //usado para selecionar a posição no mapa.
-    const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [ formData, setFormData] = useState({
         name: '',
         email: '',
         whatsapp: ''
     });
+
+    //armazena os itens.
+    const [items, setItems] = useState<Item[]>([]);
+
+    //armazena as UFs.
+    const [ufs, setUfs] = useState<string[]>([]);
+
+    //armazena a informação de qual estado está selecionado.
+    const [selectedUf, setSelectedUf] = useState('0'); // 0 pois é o mesmo valor do option que não tem nada / e é responsável por saber qual UF o usuário selecionou.
+     
+    const [cities, setCities] = useState<string[]>([]);
+    
+    //armazena a informação de qual cidade está selecionada.
+    const [selectedCity, setSelectedCity] = useState('0');
+
+    //armazena a informação do ponto marcado no mapa.
+    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]); //usado para selecionar a posição no mapa.
+    
+    //armazena a informação de quais itens estão selecionados.
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+    
+
+    const [selectedFile, setSelectedFile] = useState<File>();
+
 
     //permitir navegar de um ambiente para outro sem ter um botão. 
     const history = useHistory();
@@ -144,6 +162,8 @@ const CreatPoint = ()=> {
     async function handleSubmit(event: FormEvent){
         event.preventDefault(); // quando clicar no enter não recarregar.
 
+        
+
         //dados que serão enviados para a API
         const { name, email, whatsapp} = formData;
         const   uf   = selectedUf;
@@ -151,23 +171,28 @@ const CreatPoint = ()=> {
         const [ latitude, longitude] =  selectedPosition;
         const   items   =   selectedItems;
 
-        const data = {
-            name,
-            email, 
-            whatsapp,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
+        //como o formato dos dados não é json deve ser feito dessa forma.
+        const data = new FormData();
 
-        };
+        data.append('name',name);
+        data.append('email',email);
+        data.append('whatsapp',whatsapp);
+        data.append('uf',uf);
+        data.append('city',city);
+        data.append('latitude',String(latitude));
+        data.append('longitude',String(longitude));
+        data.append('items',items.join(','));
+
+        if(selectedFile){
+        data.append('image', selectedFile); 
+        }
+       
 
         await api.post('points', data);
 
-        alert('Ponto de coleta criado !');
+        alert('Ponto de coleta criado!!');
 
-        //após cadastrar os dados retorna para a home.
+        //após cadastrar os dados retorna para a página Home.
         history.push('/');
 
     }
@@ -186,6 +211,10 @@ const CreatPoint = ()=> {
 
             <form onSubmit={handleSubmit}>
                 <h1> Cadastro do <br/> ponto de coleta </h1>
+
+                
+                <Dropzone onFileUploaded={setSelectedFile} />
+                
 
                 {/*DADOS */}
                 <fieldset>
