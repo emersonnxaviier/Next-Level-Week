@@ -1,9 +1,23 @@
-import express, { request, response } from 'express';
+/*
+    upload.single() para receber uma única foto.
+
+    upload.array() para receber mais de uma foto.
+
+*/
+import express from 'express';
+
+import multer from 'multer';   // biblioteca de uploads.
+import multerConfig from './config/multer'; // configurações do upload.
+
 import PointsController from '../src/controllers/pointsController';  //importando a classe PointesController.
 import ItemsController from '../src/controllers/itemsController';  //importando a classe ItemsController.
 
 
 const routes = express.Router(); //serve para desacoplar as rotas do arquivo principal para outro arquivo. agr o routes funciona da mesma forma que o app funcionava.
+
+const upload = multer(multerConfig);
+
+
 
 const pointsController = new PointsController(); // estância a classe.
 const itemsController = new ItemsController(); // estância a classe.
@@ -14,7 +28,7 @@ routes.get('/items', itemsController.index); //index é nome do método da class
 
 
 // CADASTRAR PONTOS DE COLETA
-routes.post('/points', pointsController.create ); //create é  nome do método da classe.
+routes.post('/points', upload.single('image') ,pointsController.create ); //create é  nome do método da classe.
 
 // LISTAR TODOS OS PONTOS DE COLETA
 routes.get('/points', pointsController.index ); //index é nome do método da classe.

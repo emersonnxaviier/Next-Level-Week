@@ -23,10 +23,15 @@ class PointsController{
             .where('uf', String(uf))
             .distinct()    //para retornar somente pontos de coletas distintos e não o mesmo mais de uma vez.
             .select('points.*');
-            
 
-        return response.json(points);
-
+            //processo de serialização de dados
+            const serializedPoints = points.map(point =>{
+                return{
+                    ...point,
+                    image_url: `http://10.0.1.8:3333/uploads/${point.image}`,  //localhost foi alterado pelo ip da maquina, para testar no mobile.
+                }
+            });
+        return response.json(serializedPoints);
     }
 
         
@@ -46,7 +51,14 @@ class PointsController{
              if(!point){
                 return response.status(400).json({ message: 'Ponto de coleta não encontrado.'});
              }
-                   
+
+                //processo de serialização de dados
+                const serializedPoint = {
+                        ...point,
+                        image_url: `http://10.0.1.8:3333/uploads/${point}`,  //localhost foi alterado pelo ip da maquina, para testar no mobile.
+                    
+                };
+                        
                 //itens que determina o ponto coleta
                 const items = await knex('items')
                 .join('point_items', 'items.id', '=', 'point_items.item_id')
@@ -54,16 +66,9 @@ class PointsController{
                 .select('items.title');      
 
                 //se encontrar retorne o ponto.
-                return response.json({ point, items});
-
-            
-                
-                
+                return response.json({ point: serializedPoint, items});
             
     } 
-
-
-
 
 
 
@@ -84,7 +89,7 @@ class PointsController{
         const trx = await knex.transaction(); //se uma query falhar a outra não executa.
     
         const point = {
-            image: 'https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
+            image: request.file.filename,
             name, // utilizando short sintaxe, que é quando o nome da variável é igual ao nome da propriedade do objeto é possível emitir.
             email,
             whatsapp,
@@ -99,11 +104,14 @@ class PointsController{
         //RELACIONAMENTO COM A TABELA DE ITENS
         const point_id = insertedIds[0];
     
-        const pointItems = items.map((item_id:number) =>{
-            return {
-                item_id,
-                point_id,
-            };
+        const pointItems = items
+            .split(',')
+            .map( (item:string ) => Number(item.trim()))
+            .map((item_id:number) =>{
+                return {
+                    item_id,
+                    point_id,
+                };
         })
         await trx('point_items').insert( pointItems );
 
