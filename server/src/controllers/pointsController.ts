@@ -25,7 +25,7 @@ class PointsController{
             .select('points.*');
 
             //processo de serialização de dados
-            const serializedPoints = points.map(point =>{
+            const serializedPoints = points.map(point => {
                 return{
                     ...point,
                     image_url: `http://10.0.1.8:3333/uploads/${point.image}`,  //localhost foi alterado pelo ip da maquina, para testar no mobile.
@@ -44,6 +44,7 @@ class PointsController{
             //desestruturação pois o nome do objeto é o mesmo da variável.
             const { id } = request.params;
 
+
             //faz uma busca no banco de dados.
             const point = knex('points').where('id', id).first();
 
@@ -54,8 +55,8 @@ class PointsController{
 
                 //processo de serialização de dados
                 const serializedPoint = {
-                        ...point,
-                        image_url: `http://10.0.1.8:3333/uploads/${point}`,  //localhost foi alterado pelo ip da maquina, para testar no mobile.
+                    ...point,
+                    image_url: `http://10.0.1.8:3333/uploads/${point.image}`  //localhost foi alterado pelo ip da maquina, para testar no mobile.
                     
                 };
                         
@@ -89,7 +90,7 @@ class PointsController{
         const trx = await knex.transaction(); //se uma query falhar a outra não executa.
     
         const point = {
-            image: request.file.filename,
+            image: request.file.filename, //pega o nome do arquivo.
             name, // utilizando short sintaxe, que é quando o nome da variável é igual ao nome da propriedade do objeto é possível emitir.
             email,
             whatsapp,
