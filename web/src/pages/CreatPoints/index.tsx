@@ -60,7 +60,7 @@ const CreatPoint = ()=> {
     //armazena a informação de quais itens estão selecionados.
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     
-
+    //armazena a informação de se  imagem foi ou não adicionada.
     const [selectedFile, setSelectedFile] = useState<File>();
 
 
@@ -212,7 +212,7 @@ const CreatPoint = ()=> {
             <form onSubmit={handleSubmit}>
                 <h1> Cadastro do <br/> ponto de coleta </h1>
 
-                
+
                 <Dropzone onFileUploaded={setSelectedFile} />
                 
 

@@ -8,7 +8,7 @@ import './style.css';
 import { FiUpload} from 'react-icons/fi'; // importa uma imagem de upload.
 
 
-// tipo da função do Dropzone.
+// tipo da função do Dropzone, recebe um arquivo retornando nada.
 interface Props{
 onFileUploaded:(file: File) => void;
 }
@@ -27,7 +27,7 @@ const Dropzone: React.FC<Props> = ({onFileUploaded}) => {
         setSelectedFileUrl(fileUrl);
         onFileUploaded(file);
         
-    }, [onFileUploaded])
+    }, [onFileUploaded]) //executa essa função sempre que essa variável for alterada.
 
     const {getRootProps, getInputProps} = useDropzone({
         onDrop,
