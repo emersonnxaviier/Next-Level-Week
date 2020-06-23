@@ -18,23 +18,25 @@ O **Ecoleta** é uma aplicação Web e Mobile para ajudar pessoas a encontrarem 
 ## Executando a Aplicação:
 
  ```
+    # Entre no repositório
+    $ cd Next-Level-Week\server
+
     # Instale as dependências
     $ npm install
 
     # Crie o banco de dados
-    $ cd server
     $ npm run knex:migrate
 
     # Inicie as imagens dos itens
     $ npm run knex:seed
 
-    # Inicie a API/Server
+    # Inicie à API
     $ npm run dev
 
     # Inicie a aplicação web
-    $ cd web
+    $ cd Next-Level-Week\web
     $ npm start
 
     # Inicie a aplicação mobile
-    $ cd mobile
+    $ cd Next-Level-Week\mobile
     $ npm start ou expo start
