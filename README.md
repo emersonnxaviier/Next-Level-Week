@@ -25,11 +25,11 @@ O **Ecoleta** é uma aplicação Web e Mobile para ajudar pessoas a encontrarem 
     $ cd server
     $ npm run knex:migrate
 
-    ## Inicie as imagens dos itens
+    # Inicie as imagens dos itens
     $ npm run knex:seed
 
-    ### Inicie a API/Server
-     $ npm run dev
+    # Inicie a API/Server
+    $ npm run dev
 
     # Inicie a aplicação web
     $ cd web
