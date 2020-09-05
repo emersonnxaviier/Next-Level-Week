@@ -26,7 +26,8 @@ const Home = () =>{
         <ImageBackground 
           source={require('../../assets/home-background.png')} 
           style={styles.container}
-          imageStyle={ { width: 274, height: 368 } } >
+          imageStyle={ { width: 274, height: 368 } } 
+        >
 
                 <View style={styles.main}>
 

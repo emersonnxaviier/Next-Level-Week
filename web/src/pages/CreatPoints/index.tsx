@@ -1,7 +1,7 @@
 import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react';
 import './style.css';
 import logo from '../../assets/logo.svg';
-import {Link, useHistory} from 'react-router-dom';  //serve para a página não recarregar por completo.
+import {Link, useHistory} from 'react-router-dom';  // o Link serve para a página não recarregar por completo.
 import {FiArrowLeft } from 'react-icons/fi';
 import { Map, TileLayer, Marker} from 'react-leaflet'; //importações para usar o mapa.
 import api from '../../services/api'; 
@@ -75,7 +75,7 @@ const CreatPoint = ()=> {
 
             setInitialPosition([latitude, longitude]);
         });
-    });
+    }, []);
 
     // carregar cada item uma única vez
     useEffect(() =>{ 
@@ -113,14 +113,14 @@ const CreatPoint = ()=> {
         
     }, [selectedUf]);
 
-    // vai ser umachamada toda vez que o usuário mudar de UF
+    // vai ser chamada toda vez que o usuário mudar de UF
     function handleSelectUf(event: ChangeEvent<HTMLSelectElement>){
             const uf = event.target.value;
 
             setSelectedUf(uf);
     }
 
-    // vai ser uma chamada toda vez que o usuário mudar de cidade
+    // vai ser chamada toda vez que o usuário mudar de cidade
     function handleSelectCity(event: ChangeEvent<HTMLSelectElement>){
         const city = event.target.value;
 
@@ -299,7 +299,7 @@ const CreatPoint = ()=> {
                                 <li 
                                     key={item.id} 
                                     onClick={ () => handleSelectItem(item.id)}
-                                    className={selectedItems.includes(item.id) ? 'selected' : '' } // se o item for clicado adicione a class selected.
+                                    className= { selectedItems.includes(item.id) ? 'selected' : '' } // se o item for clicado adicione a class selected.
                                     >
                                     <img src={item.image_url} alt={ item.title }/>
                                     <span> {item.title} </span>
